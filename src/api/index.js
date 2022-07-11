@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-
-
 export const getPlacesData = async (type, sw, ne) => {
     try {
         const {
@@ -14,14 +12,32 @@ export const getPlacesData = async (type, sw, ne) => {
             tr_longitude: ne.lng,
           },
           headers: {
-            "X-RapidAPI-Key": "c0673cbcdcmsh768b34b7ae17126p15a97ejsne1fab409e660",
+            "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPI_TRAVEL_API_KEY,
             "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
           },
         });
         
         return data
     } catch (error) {
-        console.log(error);
+        console.log("travel", error);
         
     }
+}
+
+export const getWeatherData = async (lat, lng) => {
+  try {
+    const { data } = await axios.get('https://community-open-weather-map.p.rapidapi.com/find', {
+      params: {
+        lat: lat,
+        lon: lng,
+      },
+      headers: {
+        'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_WEATHER_API_KEY,
+        'X-RapidAPI-Host': 'community-open-weather-map.p.rapidapi.com'
+      }
+    })
+    return data
+  } catch (error) {
+    console.log("weatherError", error)
+  }
 }
